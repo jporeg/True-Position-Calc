@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculation Results</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculation Results</h1>
+        <div id="userInfo">
+            <p>User: <span id="usernameDisplay"></span></p>
+        </div>
+        <div id="resultsContainer"></div>
+    </div>
+    <script>
+        window.onload = function() {
+            var username = sessionStorage.getItem('loggedInUser');
+            document.getElementById('usernameDisplay').textContent = username;
+
+            var results = JSON.parse(sessionStorage.getItem('results')) || [];
+            var resultsContainer = document.getElementById('resultsContainer');
+            results.forEach(function(result) {
+                var resultDiv = document.createElement('div');
+                resultDiv.className = 'result ' + result.passFail.toLowerCase();
+                resultDiv.innerHTML = `
+                    <p>True Position: ${result.truePosition}</p>
+                    <p>Result: ${result.passFail}</p>
+                `;
+                resultsContainer.appendChild(resultDiv);
+            });
+        };
+    </script>
+</body>
+</html>

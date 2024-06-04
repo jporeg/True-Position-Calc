@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Details - True Position Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Work Order and Part Number</h1>
+        <form action="calculator.html" method="GET">
+            <input type="hidden" name="employeeNumber" value="">
+            <label for="workOrder">Work Order:</label>
+            <input type="text" id="workOrder" name="workOrder" required>
+            <label for="partNumber">Part Number:</label>
+            <input type="text" id="partNumber" name="partNumber" required>
+            <button type="submit">Proceed to Calculator</button>
+        </form>
+    </div>
+    <script>
+        document.getElementsByName('employeeNumber')[0].value = new URLSearchParams(window.location.search).get('employeeNumber');
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

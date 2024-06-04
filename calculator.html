@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Position Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>True Position Calculator</h1>
+        <section class="section">
+            <h2>Information From Drawing</h2>
+            <img src="TPCALCULATOR.JPG" alt="Diagram" style="max-width:100%; height:auto;">
+            <label for="positionTolerance">Position Tolerance</label>
+            <input type="number" id="positionTolerance" placeholder="Enter tolerance value">
+        </section>
+
+        <section class="section">
+            <h2>Measured Values</h2>
+            <label for="xDeviation">X Deviation (dx)</label>
+            <input type="number" id="xDeviation" placeholder="Enter X deviation">
+            <label for="yDeviation">Y Deviation (dy)</label>
+            <input type="number" id="yDeviation" placeholder="Enter Y deviation">
+        </section>
+
+        <section class="section">
+            <h2>Output</h2>
+            <label for="totalPosition">Total Position</label>
+            <input type="text" id="totalPosition" readonly>
+            <div id="statusMessage"></div>
+        </section>
+
+        <div><button type="button" onclick="storeResults()">Calculate</button></div>
+        <div><button type="button" onclick="window.location.href='results.html'">Complete</button></div>
+    </div>
+
+    <script>
+        function storeResults() {
+            var xDeviation = parseFloat(document.getElementById('xDeviation').value);
+            var yDeviation = parseFloat(document.getElementById('yDeviation').value);
+            var positionTolerance = parseFloat(document.getElementById('positionTolerance').value);
+
+            var calculatedValue = Math.sqrt(Math.pow(xDeviation, 2) + Math.pow(yDeviation, 2));
+            var truePosition = 2 * calculatedValue;
+            var passFail = truePosition <= positionTolerance ? "Pass" : "Fail";
+
+            var results = {
+                employeeNumber: new URLSearchParams(window.location.search).get('employeeNumber'),
+                workOrder: new URLSearchParams(window.location.search).get('workOrder'),
+                partNumber: new URLSearchParams(window.location.search).get('partNumber'),
+                truePosition: truePosition.toFixed(4),
+                passFail: passFail
+            };
+
+            sessionStorage.setItem('results', JSON.stringify(results));
+            document.getElementById('totalPosition').value = truePosition.toFixed(4);
+            var statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = passFail;
+            statusMessage.className = passFail.toLowerCase();
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
